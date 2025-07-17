@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des contrats{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1 class="mb-4">📄 Liste des Contrats</h1>
+
+    <a href="{{ path('app_contract_new') }}" class="btn btn-success mb-3">➕ Nouveau contrat</a>
+
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Nom</th>
+                <th>Début</th>
+                <th>Fin</th>
+                <th>Renouvelé</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for contract in contracts %}
+            <tr>
+                <td>{{ contract.name }}</td>
+                <td>{{ contract.startDate ? contract.startDate|date('Y-m-d') : '' }}</td>
+                <td>{{ contract.endDate ? contract.endDate|date('Y-m-d') : '' }}</td>
+                <td>
+                    {% if contract.renewed %}
+                        <span class="badge bg-success">Oui</span>
+                    {% else %}
+                        <span class="badge bg-danger">Non</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{{ path('contract_show', {'id': contract.id}) }}" class="btn btn-sm btn-primary">Voir</a>
+                    <a href="{{ path('contract_edit', {'id': contract.id}) }}" class="btn btn-sm btn-warning">Modifier</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5" class="text-center">Aucun contrat trouvé.</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
